@@ -1,0 +1,11 @@
+# misc
+.DS_Store
+.env*
+!.env.example
+
+# dev
+.vscode
+
+# Compiler files
+cache/
+out/
