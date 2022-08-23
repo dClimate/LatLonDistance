@@ -1,8 +1,9 @@
 pragma solidity ^0.8.13;
 
 import {PRBMathSD59x18 as P} from "prb-math/PRBMathSD59x18.sol";
-import {Trigonometry as T} from "solidity-trigonometry/Trigonometry.sol";
+import {PRBMath as P2} from "prb-math/PRBMath.sol";
 import {Arcsin as A} from "solidity-trigonometry/Arcsin.sol";
+import {Trigonometry as T} from "solidity-trigonometry/Trigonometry.sol";
 
 /**
  * @notice Calculates distance (in meters) between two locations by
@@ -42,7 +43,9 @@ library LatLonDistance {
      * @dev Only for internal library use. Multiplies by pi and divides by 180.
      */
   function mpd1(int256 _x) internal pure returns (int256) {
-    return _x.mul(P.pi()).div(P.fromInt(180));
+    int256 c180 = P.fromInt(180);
+
+    return P2.mulDivSigned(_x, P.pi(), c180);
   }
 
   /**
