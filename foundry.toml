@@ -2,3 +2,7 @@
 src = 'src'
 out = 'out'
 libs = ['lib']
+
+# solidity config
+optimizer = true
+optimizer-runs = 9999999

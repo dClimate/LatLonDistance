@@ -11,6 +11,9 @@ import {Trigonometry as T} from "solidity-trigonometry/Trigonometry.sol";
  * formula. See the python implementation on
  * https://www.vibhuagrawal.com/blog/geospatial-nearest-neighbor-search.
  *
+ * Tests with a relative tolerance of 0.05%, with the smallest tested distance
+ * being 1.112 km.
+ *
  * @author Md Abid Sikder
  */
 library LatLonDistance {
@@ -23,9 +26,9 @@ library LatLonDistance {
   int256 constant earthRadius = 6371008771400000000000000;
   
   int256 constant maxLat = 90000000000000000000;
-  int256 constant minLat = -maxLat;
+  int256 constant minLat = -90000000000000000000;
   int256 constant maxLon = 180000000000000000000;
-  int256 constant minLon = -maxLon;
+  int256 constant minLon = -180000000000000000000;
 
   modifier validLat(int256 _lat) {
     require(_lat <= maxLat, "Latitude too big");
@@ -43,8 +46,7 @@ library LatLonDistance {
      * @dev Only for internal library use. Multiplies by pi and divides by 180.
      */
   function mpd1(int256 _x) internal pure returns (int256) {
-    int256 c180 = P.fromInt(180);
-
+    int256 c180 = 180000000000000000000;
     return P2.mulDivSigned(_x, P.pi(), c180);
   }
 
@@ -53,7 +55,7 @@ library LatLonDistance {
      * @dev Calculates $\sin^2(\frac{lat_2 - lat_1}{2})$
      */
   function aux1(int256 lat1, int256 lat2) internal pure returns (int256) {
-    int256 TWO = P.fromInt(2);
+    int256 TWO = 2000000000000000000;
 
     int256 delta = lat2 - lat1;
 
@@ -84,7 +86,7 @@ library LatLonDistance {
      * @dev Calculates $\sin^2(\frac{lon_2 - lon_1}{2})$
      */
   function aux3(int256 lon1, int256 lon2) internal pure returns (int256) {
-    int256 TWO = P.fromInt(2);
+    int256 TWO = 2000000000000000000;
 
     // Since we square the result of the sine, ignore the sign of the argument
     int256 delta = (lon2 - lon1);
@@ -117,7 +119,7 @@ library LatLonDistance {
   function distance(int256 _lat1, int256 _lon1, int256 _lat2, int256 _lon2) internal pure 
   validLat(_lat1) validLat(_lat2) validLon(_lon1) validLon(_lon2)
   returns (int256) {
-    int256 TWO = P.fromInt(2);
+    int256 TWO = 2000000000000000000;
 
     // convert to radian measure
     _lat1 = mpd1(_lat1);
@@ -129,7 +131,6 @@ library LatLonDistance {
     int256 a1 = aux1(_lat1, _lat2);
     int256 a2 = aux2(_lat1, _lat2);
     int256 a3 = aux3(_lon1, _lon2);
-
 
     int256 a4 = a1 + a2.mul(a3);
     int256 a5 = a4.sqrt();
