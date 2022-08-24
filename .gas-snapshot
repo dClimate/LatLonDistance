@@ -1,0 +1,8 @@
+testDistance0() (gas: 14966)
+testDistance1() (gas: 16203)
+testDistance2() (gas: 16491)
+testDistance3() (gas: 15960)
+testDistanceLatBorder() (gas: 16248)
+testDistanceLonBorder() (gas: 16317)
+testDistanceTrueNorth() (gas: 17582)
+testDistanceTrueSouth() (gas: 17637)
